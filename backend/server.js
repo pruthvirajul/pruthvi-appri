@@ -7,24 +7,24 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = 3000
+const port = 3002
 
 // CORS middleware with specific origins
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3001',
+    process.env.FRONTEND_URL || 'http://54.166.206.245:8003',
     
     'http://127.0.0.1:5500',
-    'http://localhost:5500'
+    'http://54.166.206.245:8004'
   ]
 }));
 app.use(express.json());
 
 const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || 'postgres',
   database: process.env.DB_NAME || 'new_employee_db',
-  password: process.env.DB_PASSWORD || 'Password@12345',
+  password: process.env.DB_PASSWORD || 'admin123',
   port: process.env.DB_PORT || 5432,
 });
 
@@ -158,7 +158,7 @@ app.post('/api/appraisals', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
