@@ -1,3 +1,4 @@
+
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
@@ -6,17 +7,17 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3002;
+const port = 3002
 
 // CORS middleware with specific origins
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL,
-    'http://127.0.0.1:5500',
-    'http://54.166.206.245:8004',
-    'http://54.166.206.245:8003',
-    'http://localhost:5500'
-  ]
+  process.env.FRONTEND_URL,
+  'http://127.0.0.1:5500',
+  'http://54.166.206.245:8004',
+  'http://54.166.206.245:8003',
+  'http://localhost:5500'
+]
 }));
 app.use(express.json());
 
@@ -26,10 +27,6 @@ const pool = new Pool({
   database: process.env.DB_NAME || 'new_employee_db',
   password: process.env.DB_PASSWORD || 'admin123',
   port: process.env.DB_PORT || 5432,
-  retry: {
-    max: 5,
-    timeout: 5000
-  }
 });
 
 // Initialize database (create appraisals table if it doesn't exist)
@@ -37,8 +34,8 @@ async function initializeDatabase() {
   try {
     const tableCheck = await pool.query(`
       SELECT EXISTS (
-        SELECT FROM information_schema.tables
-        WHERE table_schema = 'public'
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
         AND table_name = 'appraisals'
       );
     `);
@@ -72,31 +69,26 @@ async function initializeDatabase() {
       code: err.code,
       detail: err.detail
     });
-    process.exit(1);
+    process.exit(1); // Exit if table creation fails
   }
 }
 
-// Connect to database with retry logic
-async function connectWithRetry() {
-  let retries = 5;
-  while (retries) {
-    try {
-      const client = await pool.connect();
-      client.release();
-      console.log('Connected to PostgreSQL database');
-      return;
-    } catch (err) {
-      console.error('Database connection error, retrying...', {
-        message: err.message,
-        code: err.code
-      });
-      retries--;
-      await new Promise(res => setTimeout(res, 5000));
-    }
+// Test database connection and initialize database
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('Database connection error:', {
+      message: err.message,
+      stack: err.stack,
+      code: err.code
+    });
+    process.exit(1);
+    return;
   }
-  console.error('Failed to connect to PostgreSQL after retries');
-  process.exit(1);
-}
+  console.log('Connected to PostgreSQL database');
+  release();
+  // Initialize database after successful connection
+  initializeDatabase();
+});
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
@@ -120,7 +112,7 @@ app.get('/api/appraisals', async (req, res) => {
     try {
       result = await pool.query('SELECT * FROM appraisals ORDER BY created_at DESC');
     } catch (err) {
-      if (err.code === '42703') { // Undefined column
+      if (err.code === '42703') { // Undefined column (e.g., created_at missing)
         console.warn('created_at column missing, falling back to query without ORDER BY');
         result = await pool.query('SELECT * FROM appraisals');
       } else if (err.code === '42P01') { // Undefined table
@@ -167,19 +159,7 @@ app.post('/api/appraisals', async (req, res) => {
   }
 });
 
-// Start server after DB connection is established
-async function startServer() {
-  try {
-    await connectWithRetry();
-    await initializeDatabase();
-    
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  } catch (err) {
-    console.error('Failed to start server:', err);
-    process.exit(1);
-  }
-}
-
-startServer();
+const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

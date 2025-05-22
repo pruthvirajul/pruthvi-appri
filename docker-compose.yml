@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: appraisal_db
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: new_employee_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - appraisal_net
+
+  backend:
+    build: ./backend
+    container_name: appraisal_backend
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./backend/server.env
+    depends_on:
+      - postgres
+    networks:
+      - appraisal_net
+
+  frontend:
+    build: ./frontend
+    container_name: appraisal_frontend
+    ports:
+      - "8004:80"
+    networks:
+      - appraisal_net
+
+  hr_page:
+    build: ./Hr_page
+    container_name: appraisal_hr_page
+    ports:
+      - "8003:80"
+    networks:
+      - appraisal_net
+
+volumes:
+  db_data:
+
+networks:
+  appraisal_net:
+
