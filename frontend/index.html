@@ -6,8 +6,6 @@
     <title>Appraisal Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-
-
         * {
             margin: 0;
             padding: 0;
@@ -152,6 +150,10 @@
             font-weight: 600;
             color: #212529;
             margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
         }
 
         .card-subtitle {
@@ -213,6 +215,7 @@
             font-weight: 600;
             font-size: 0.8rem;
             text-transform: uppercase;
+            cursor: pointer;
         }
 
         .status.completed {
@@ -247,7 +250,7 @@
             margin-bottom: 20px;
         }
 
-        .no-data h3 {
+        .no-data h_feedback {
             font-size: 1.5rem;
             color: #495057;
             margin-bottom: 10px;
@@ -258,6 +261,56 @@
             color: #495057;
             opacity: 0.7;
             max-width: 500px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 80vh; /* Limit modal height to 80% of viewport height */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #495057;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .modal-subtitle {
+            font-size: 0.9rem;
+            color: #495057;
+            opacity: 0.7;
         }
 
         @media (max-width: 768px) {
@@ -296,6 +349,7 @@
 
             .card-title {
                 font-size: 1.2rem;
+                max-width: 150px;
             }
         }
     </style>
@@ -313,16 +367,45 @@
 
     <div class="appraisal-container" id="appraisal-container"></div>
 
+    <div class="modal" id="appraisalModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()"></span>
+            <div class="modal-header">
+                <div class="modal-title" id="modalEmpName"></div>
+                <div class="modal-subtitle" id="modalEmpId"></div>
+            </div>
+            <div class="rating-container">
+                <div class="rating" id="modalRating"></div>
+                <div class="stars" id="modalStars"></div>
+            </div>
+            <div class="feedback">
+                <div class="feedback-item">
+                    <span class="feedback-label">Task:</span>
+                    <span id="modalTask"></span>
+                </div>
+                <div class="feedback-item">
+                    <span class="feedback-label">Feedback:</span>
+                    <span id="modalFeedback"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span id="modalDate"></span>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let appraisalsData = [];
+
         async function displayAppraisals() {
             const container = document.getElementById('appraisal-container');
             container.innerHTML = '';
 
             try {
-                const response = await fetch('http://54.166.206.245:3002/api/appraisals');
-                const appraisals = await response.json();
+                const response = await fetch('http://44.223.23.145:3405/api/appraisals');
+                appraisalsData = await response.json();
 
-                if (appraisals.length === 0) {
+                if (appraisalsData.length === 0) {
                     container.innerHTML = `
                         <div class="no-data">
                             <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="No appraisals" class="no-data-img">
@@ -333,7 +416,7 @@
                     return;
                 }
 
-                appraisals.forEach(appraisal => {
+                appraisalsData.forEach((appraisal, index) => {
                     const card = document.createElement('div');
                     card.classList.add('appraisal-card');
                     card.innerHTML = `
@@ -353,14 +436,10 @@
                                 <span class="feedback-label">Task:</span>
                                 <span>${appraisal.task_name}</span>
                             </div>
-                            <div class="feedback-item">
-                                <span class="feedback-label">Feedback:</span>
-                                <span>${appraisal.feedback}</span>
-                            </div>
                         </div>
                         <div class="card-footer">
                             <span>Date: ${new Date(appraisal.created_at).toLocaleDateString()}</span>
-                            <span class="status completed">HR</span>
+                            <span class="status completed" onclick="showModal(${index})">View</span>
                         </div>
                     `;
                     container.appendChild(card);
@@ -371,9 +450,33 @@
             }
         }
 
+        function showModal(index) {
+            const appraisal = appraisalsData[index];
+            const modal = document.getElementById('appraisalModal');
+            document.getElementById('modalEmpName').textContent = appraisal.emp_name;
+            document.getElementById('modalEmpId').textContent = `ID: ${appraisal.emp_id}`;
+            document.getElementById('modalRating').textContent = `${appraisal.rating}/5`;
+            document.getElementById('modalStars').textContent = '⭐'.repeat(appraisal.rating);
+            document.getElementById('modalTask').textContent = appraisal.task_name;
+            document.getElementById('modalFeedback').textContent = appraisal.feedback;
+            document.getElementById('modalDate').textContent = `Date: ${new Date(appraisal.created_at).toLocaleDateString()}`;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('appraisalModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('appraisalModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
         window.onload = function() {
             displayAppraisals();
         };
     </script>
 </body>
-</html>  
+</html>

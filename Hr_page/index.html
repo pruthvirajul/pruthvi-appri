@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,245 +5,248 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Review</title>
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            background-color: #ffffff;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        header {
-            position: relative;
-            text-align: center;
-            height: 90px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #f8f9fa;
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            width: 100%;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 20px;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6fc;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+header {
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    border-radius: 16px;
+    padding: 20px 20px;
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
 
-        header p {
-            font-weight: 300;
-            font-size: 1.1rem;
-            margin-top: 15px;
-            max-width: 700px;
-            opacity: 0.9;
-            z-index: 2;
-        }
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+}
 
-        @keyframes moveCircles {
-            0% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-50%) translateX(-50%); }
-            100% { transform: translateY(0) translateX(0); }
-        }
+header p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.9;
+    z-index: 1;
+    position: relative;
+}
 
-        .banner-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
+.banner-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
 
-        .circle {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: moveCircles 10s infinite linear;
-        }
+.circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: moveCircles 10s infinite alternate ease-in-out;
+}
 
-        .circle:nth-child(1) {
-            top: 10%;
-            left: 20%;
-            animation-duration: 8s;
-        }
+.circle:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-duration: 12s;
+}
 
-        .circle:nth-child(2) {
-            top: 50%;
-            left: 70%;
-            animation-duration: 12s;
-        }
+.circle:nth-child(2) {
+    top: 50%;
+    left: 70%;
+    animation-duration: 18s;
+}
 
-        .circle:nth-child(3) {
-            top: 80%;
-            left: 40%;
-            animation-duration: 15s;
-        }
+.circle:nth-child(3) {
+    top: 80%;
+    left: 40%;
+    animation-duration: 14s;
+}
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-            width: 95%;
-            margin-top: 20px;
-            gap: 30px;
-        }
+@keyframes moveCircles {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-30px, -30px);
+    }
+}
 
-        .left-side {
-            width: 50%;
-            background: linear-gradient(rgba(224, 224, 255, 0.45), rgba(253, 240, 227, 0.61), rgba(247, 222, 255, 0.568));
-            padding: 20px;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
 
-        .left-side h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 30px;
-        }
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+/* Form Container */
+.left-side {
+    flex: 1;
+    min-width: 300px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
+.left-side h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
 
-        textarea {
-            resize: none;
-            height: 120px;
-        }
+.form-group label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
 
-        button {
-            font-family: inherit;
-            display: inline-block;
-            width: 100%;
-            padding: 10px;
-            cursor: pointer;
-            border: 2px solid #560bad;
-            transition: 0.5s;
-            font-size: 17px;
-            border-radius: 6px;
-            font-weight: 500;
-            color: #560bad;
-            background-color: #fff;
-        }
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
 
-        button:hover {
-            color: #fff;
-            background-color: #560bad;
-        }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.1);
+}
 
-        .right-side {
-            width: 50%;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            height: 750px;
-            overflow-y: auto;
-            justify-content: flex-start;
-        }
+textarea {
+    height: 120px;
+    resize: none;
+}
 
-        .appraisal-card {
-            background-color: #f0e0ff57;
-            color: rgb(0, 0, 0);
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgb(0, 0, 0, 0.1);
-            width: 80%;
-            min-height: 140px;
-            max-height: 140px;
-            display: block;
-            overflow: auto;
-            flex-wrap: wrap;
-            margin-left: auto;
-            margin-right: auto;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #6a11cb;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-        .appraisal-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
+button:hover {
+    background-color: #4a0dab;
+}
 
-        @media screen and (max-width: 575px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
+/* Error Message */
+.error-message {
+    color: #d62828;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    display: none;
+}
 
-            .left-side, .right-side {
-                width: 100%;
-                height: auto;
-                padding: 15px;
-            }
+.right-side {
+    flex: 1;
+    min-width: 300px;
+    max-height: 750px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    background-color: #fdfdff;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
 
-            button {
-                width: 100%;
-            }
-        }
+.appraisal-card {
+    background-color: #ffffff;
+    border-left: 6px solid #05a150a8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+    overflow: hidden;
+    word-wrap: break-word;
+    flex-shrink: 0;
+}
 
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            display: none;
-        }
 
-        .no-data-message {
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
+.appraisal-card:hover {
+    transform: translateY(-4px);
+}
 
-        .no-data-img {
-            width: 100px;
-            height: auto;
-            margin-bottom: 15px;
-        }
+.no-data-message {
+    text-align: center;
+    padding: 30px;
+    border: 1px dashed #bbb;
+    background-color: #fff;
+    border-radius: 12px;
+}
 
-        .no-data-text h3 {
-            font-size: 1.5rem;
-            color: #333;
-            margin: 10px 0;
-        }
+.no-data-img {
+    width: 80px;
+    margin-bottom: 20px;
+}
 
-        .no-data-text p {
-            font-size: 1.1rem;
-            color: #666;
-        }
+.no-data-text h3 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.no-data-text p {
+    font-size: 1rem;
+    color: #666;
+}
+
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-side, .right-side {
+        width: 100%;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -338,7 +338,7 @@
                 };
 
                 try {
-                    const response = await fetch('http://54.166.206.245:3002/api/appraisals', {
+                    const response = await fetch('http://44.223.23.145:3405/api/appraisals', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -469,7 +469,7 @@
                 container.innerHTML = "";
 
                 try {
-                    const response = await fetch('http://54.166.206.245:3002/api/appraisals');
+                    const response = await fetch('http://44.223.23.145:3405/api/appraisals');
                     if (!response.ok) {
                         const errorData = await response.json().catch(() => ({}));
                         throw new Error(errorData.error || `Failed to fetch appraisals (Status: ${response.status})`);

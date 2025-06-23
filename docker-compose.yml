@@ -5,7 +5,7 @@ services:
     image: postgres:15
     container_name: appraisal_db
     ports:
-      - "5435:5432"
+      - "5402:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin123
@@ -20,7 +20,7 @@ services:
     build: ./backend
     container_name: appraisal_backend
     ports:
-      - "3002:3002"
+      - "3405:3405"
     env_file:
       - ./backend/server.env
     depends_on:
@@ -32,7 +32,7 @@ services:
     build: ./frontend
     container_name: appraisal_frontend
     ports:
-      - "8004:80"
+      - "8014:80"
     networks:
       - appraisal_net
 
@@ -40,7 +40,7 @@ services:
     build: ./Hr_page
     container_name: appraisal_hr_page
     ports:
-      - "8003:80"
+      - "8015:80"
     networks:
       - appraisal_net
 
