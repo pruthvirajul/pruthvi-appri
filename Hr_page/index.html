@@ -3,360 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appraisal Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Employee Review</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
-            color: #495057;
-            min-height: 100vh;
-            padding: 20px;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6fc;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
 
-        header {
-            position: relative;
-            text-align: center;
-            height: 140px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #f8f9fa;
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            width: 100%;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 20px;
-        }
+header {
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    border-radius: 16px;
+    padding: 20px 20px;
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 700;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+}
 
-        header p {
-            font-weight: 300;
-            font-size: 1.1rem;
-            margin-top: 15px;
-            max-width: 700px;
-            opacity: 0.9;
-            z-index: 2;
-        }
+header p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.9;
+    z-index: 1;
+    position: relative;
+}
 
-        @keyframes moveCircles {
-            0% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-50%) translateX(-50%); }
-            100% { transform: translateY(0) translateX(0); }
-        }
+.banner-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
 
-        .banner-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-        }
+.circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: moveCircles 10s infinite alternate ease-in-out;
+}
 
-        .circle {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: moveCircles 10s infinite linear;
-        }
+.circle:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-duration: 12s;
+}
 
-        .circle:nth-child(1) {
-            top: 10%;
-            left: 20%;
-            animation-duration: 8s;
-        }
+.circle:nth-child(2) {
+    top: 50%;
+    left: 70%;
+    animation-duration: 18s;
+}
 
-        .circle:nth-child(2) {
-            top: 50%;
-            left: 70%;
-            animation-duration: 12s;
-        }
+.circle:nth-child(3) {
+    top: 80%;
+    left: 40%;
+    animation-duration: 14s;
+}
 
-        .circle:nth-child(3) {
-            top: 80%;
-            left: 40%;
-            animation-duration: 15s;
-        }
+@keyframes moveCircles {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-30px, -30px);
+    }
+}
 
-        .appraisal-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 10px;
-        }
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
 
-        .appraisal-card {
-            background: linear-gradient(rgba(242, 242, 255, 0.833),white);
-            border-radius: 16px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+}
 
-        .appraisal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-        }
+/* Form Container */
+.left-side {
+    flex: 1;
+    min-width: 300px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease;
+}
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
+.left-side h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.5rem;
-            color: white;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        }
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
 
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #212529;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-        }
+.form-group label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
 
-        .card-subtitle {
-            font-size: 0.9rem;
-            color: #495057;
-            opacity: 0.7;
-        }
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
 
-        .rating-container {
-            display: flex;
-            align-items: center;
-            margin: 15px 0;
-        }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.1);
+}
 
-        .rating {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-right: 10px;
-            color: #FFC107;
-        }
+textarea {
+    height: 120px;
+    resize: none;
+}
 
-        .stars {
-            color: #FFC107;
-            font-size: 1rem;
-        }
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #6a11cb;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-        .feedback {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #495057;
-            margin-bottom: 15px;
-        }
+button:hover {
+    background-color: #4a0dab;
+}
 
-        .feedback-item {
-            margin-bottom: 12px;
-            display: flex;
-        }
+/* Error Message */
+.error-message {
+    color: #d62828;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    display: none;
+}
 
-        .feedback-label {
-            font-weight: 600;
-            min-width: 100px;
-            color: #6a11cb;
-        }
+.right-side {
+    flex: 1;
+    min-width: 300px;
+    max-height: 750px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    background-color: #fdfdff;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
 
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            font-size: 0.85rem;
-            color: #495057;
-        }
+.appraisal-card {
+    background-color: #ffffff;
+    border-left: 6px solid #05a150a8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+    overflow: hidden;
+    word-wrap: break-word;
+    flex-shrink: 0;
+}
 
-        .status {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
 
-        .status.completed {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: #4CAF50;
-        }
+.appraisal-card:hover {
+    transform: translateY(-4px);
+}
 
-        .status.pending {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #FFC107;
-        }
+.no-data-message {
+    text-align: center;
+    padding: 30px;
+    border: 1px dashed #bbb;
+    background-color: #fff;
+    border-radius: 12px;
+}
 
-        .status.overdue {
-            background-color: rgba(244, 67, 54, 0.1);
-            color: #F44336;
-        }
+.no-data-img {
+    width: 80px;
+    margin-bottom: 20px;
+}
 
-        .no-data {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin: 40px auto;
-            grid-column: 1 / -1;
-        }
+.no-data-text h3 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 10px;
+}
 
-        .no-data-img {
-            width: 250px;
-            height: auto;
-            opacity: 0.7;
-            margin-bottom: 20px;
-        }
+.no-data-text p {
+    font-size: 1rem;
+    color: #666;
+}
 
-        .no-data h3 {
-            font-size: 1.5rem;
-            color: #495057;
-            margin-bottom: 10px;
-        }
 
-        .no-data p {
-            font-size: 1rem;
-            color: #495057;
-            opacity: 0.7;
-            max-width: 500px;
-        }
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
+    .left-side, .right-side {
+        width: 100%;
+    }
+}
 
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #495057;
-            transition: color 0.3s ease;
-        }
-
-        .close:hover {
-            color: #F44336;
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #212529;
-        }
-
-        .modal-subtitle {
-            font-size: 0.9rem;
-            color: #495057;
-            opacity: 0.7;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                height: auto;
-                padding: 30px 20px;
-            }
-
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            header p {
-                font-size: 1rem;
-            }
-
-            .appraisal-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-
-            .appraisal-card {
-                padding: 20px;
-            }
-
-            .card-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-
-            .card-title {
-                font-size: 1.2rem;
-                max-width: 150px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -366,122 +256,265 @@
             <div class="circle"></div>
             <div class="circle"></div>
         </div>
-        <h1>Performance Appraisals</h1>
-        <p>Review your performance evaluations, feedback from managers, and track your professional growth journey</p>
+        <h1>Employee Appraisal Form</h1>
+        <p>Submit your appraisal feedback below.</p>
     </header>
-
-    <div class="appraisal-container" id="appraisal-container"></div>
-
-    <div class="modal" id="appraisalModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <div class="modal-title" id="modalEmpName"></div>
-                <div class="modal-subtitle" id="modalEmpId"></div>
-            </div>
-            <div class="rating-container">
-                <div class="rating" id="modalRating"></div>
-                <div class="stars" id="modalStars"></div>
-            </div>
-            <div class="feedback">
-                <div class="feedback-item">
-                    <span class="feedback-label">Task:</span>
-                    <span id="modalTask"></span>
+    <div class="container">
+        <div class="left-side">
+            <form id="appraisalForm">
+                <div class="form-group">
+                    <label for="empName">Employee Name:</label>
+                    <input type="text" id="empName" placeholder="Enter Employee Name" required minlength="3" maxlength="40">
+                    <span id="empName-error" class="error-message"></span>
                 </div>
-                <div class="feedback-item">
-                    <span class="feedback-label">Feedback:</span>
-                    <span id="modalFeedback"></span>
+                <div class="form-group">
+                    <label for="empId">Employee ID:</label>
+                    <input type="text" id="empId" placeholder="Enter Employee ID" required minlength="7" maxlength="7">
+                    <span id="empId-error" class="error-message"></span>
                 </div>
-            </div>
-            <div class="card-footer">
-                <span id="modalDate"></span>
-            </div>
+                <div class="form-group">
+                    <label for="taskName">Task Name:</label>
+                    <input type="text" id="taskName" placeholder="Enter Task Name" required minlength="3" maxlength="40">
+                    <span id="taskName-error" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="feedback">Feedback:</label>
+                    <textarea id="feedback" placeholder="Enter reason" required minlength="5" maxlength="80"></textarea>
+                    <span id="feedback-error" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <select id="rating" required>
+                        <option value="">Select Rating</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                    <span id="rating-error" class="error-message"></span>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
         </div>
+        <div class="right-side" id="cardsContainer"></div>
     </div>
 
     <script>
-        let appraisalsData = [];
+        document.addEventListener("DOMContentLoaded", function () {
+            loadAppraisals();
 
-        async function displayAppraisals() {
-            const container = document.getElementById('appraisal-container');
-            container.innerHTML = '';
+            document.getElementById("empName").addEventListener("input", validateEmpName);
+            document.getElementById("empId").addEventListener("input", validateEmpId);
+            document.getElementById("taskName").addEventListener("input", validateTaskName);
+            document.getElementById("feedback").addEventListener("input", validateFeedback);
+            document.getElementById("rating").addEventListener("change", validateRating);
 
-            try {
-                const response = await fetch('http://44.223.23.145:3405/api/appraisals');
-                appraisalsData = await response.json();
+            document.getElementById("appraisalForm").addEventListener("submit", async function (e) {
+                e.preventDefault();
 
-                if (appraisalsData.length === 0) {
-                    container.innerHTML = `
-                        <div class="no-data">
-                            <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="No appraisals" class="no-data-img">
-                            <h3>No Appraisals Found</h3>
-                            <p>You don't have any performance appraisals yet. Check back later or contact your manager.</p>
-                        </div>
-                    `;
+                let empName = document.getElementById("empName").value.trim();
+                let empId = document.getElementById("empId").value.trim();
+                let taskName = document.getElementById("taskName").value.trim();
+                let feedback = document.getElementById("feedback").value.trim();
+                let rating = document.getElementById("rating").value;
+
+                if (
+                    !validateEmpName() ||
+                    !validateEmpId() ||
+                    !validateTaskName() ||
+                    !validateFeedback() ||
+                    !validateRating()
+                ) {
                     return;
                 }
 
-                appraisalsData.forEach((appraisal, index) => {
-                    const card = document.createElement('div');
-                    card.classList.add('appraisal-card');
-                    card.innerHTML = `
-                        <div class="card-header">
-                            <div class="card-icon"><i class="fas fa-user"></i></div>
-                            <div>
-                                <div class="card-title">${appraisal.emp_name}</div>
-                                <div class="card-subtitle">ID: ${appraisal.emp_id}</div>
-                            </div>
-                        </div>
-                        <div class="rating-container">
-                            <div class="rating">${appraisal.rating}/5</div>
-                            <div class="stars">${'⭐'.repeat(appraisal.rating)}</div>
-                        </div>
-                        <div class="feedback">
-                            <div class="feedback-item">
-                                <span class="feedback-label">Task:</span>
-                                <span>${appraisal.task_name}</span>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <span>Date: ${new Date(appraisal.created_at).toLocaleDateString()}</span>
-                            <span class="status completed" onclick="showModal(${index})">View</span>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-            } catch (err) {
-                console.error(err);
-                container.innerHTML = '<p>Error loading appraisals</p>';
+                let appraisal = {
+                    empName,
+                    empId,
+                    taskName,
+                    feedback,
+                    rating: parseInt(rating)
+                };
+
+                try {
+                    const response = await fetch('http://44.223.23.145:3405/api/appraisals', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(appraisal),
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.error || `Failed to save appraisal (Status: ${response.status})`);
+                    }
+
+                    await displayAppraisals();
+                    document.getElementById("appraisalForm").reset();
+                    alert('Appraisal submitted successfully!');
+                } catch (err) {
+                    console.error('Submission Error:', err);
+                    alert(`Error saving appraisal: ${err.message}`);
+                }
+            });
+
+            function validateEmpName() {
+                let empName = document.getElementById("empName").value;
+                let error = document.getElementById("empName-error");
+
+                if (empName.startsWith(" ") || empName.endsWith(" ")) {
+                    error.innerText = "Employee Name cannot have leading or trailing spaces.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                let pattern = /^(?!.*\.\.)(?!.* \.)(?!.*\. )(?!^\.)[A-Za-z.]+(?:\s[A-Za-z.]+)*$/;
+                let dotCount = (empName.match(/\./g) || []).length;
+
+                if (!pattern.test(empName) || dotCount > 2) {
+                    error.innerText = "Invalid Employee Name format.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                error.style.display = "none";
+                return true;
             }
-        }
 
-        function showModal(index) {
-            const appraisal = appraisalsData[index];
-            const modal = document.getElementById('appraisalModal');
-            document.getElementById('modalEmpName').textContent = appraisal.emp_name;
-            document.getElementById('modalEmpId').textContent = `ID: ${appraisal.emp_id}`;
-            document.getElementById('modalRating').textContent = `${appraisal.rating}/5`;
-            document.getElementById('modalStars').textContent = '⭐'.repeat(appraisal.rating);
-            document.getElementById('modalTask').textContent = appraisal.task_name;
-            document.getElementById('modalFeedback').textContent = appraisal.feedback;
-            document.getElementById('modalDate').textContent = `Date: ${new Date(appraisal.created_at).toLocaleDateString()}`;
-            modal.style.display = 'flex';
-        }
+            function validateEmpId() {
+                let empId = document.getElementById("empId").value;
+                let error = document.getElementById("empId-error");
 
-        function closeModal() {
-            document.getElementById('appraisalModal').style.display = 'none';
-        }
+                if (empId.startsWith(" ") || empId.endsWith(" ")) {
+                    error.innerText = "Employee ID cannot have leading or trailing spaces.";
+                    error.style.display = "inline";
+                    return false;
+                }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('appraisalModal');
-            if (event.target === modal) {
-                closeModal();
+                let pattern = /^[ATS]{3}0\d{3}$/;
+                if (!pattern.test(empId)) {
+                    error.innerText = "Employee ID should be in format: ATS0XXX.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                error.style.display = "none";
+                return true;
             }
-        }
 
-        window.onload = function() {
-            displayAppraisals();
-        };
+            function validateTaskName() {
+                let taskName = document.getElementById("taskName").value;
+                let error = document.getElementById("taskName-error");
+
+                if (taskName.startsWith(" ") || taskName.endsWith(" ")) {
+                    error.innerText = "Task Name cannot have leading or trailing spaces.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                let pattern = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+                if (!pattern.test(taskName)) {
+                    error.innerText = "Task Name should only contain alphabets and single spaces.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                error.style.display = "none";
+                return true;
+            }
+
+            function validateFeedback() {
+                let feedback = document.getElementById("feedback").value;
+                let error = document.getElementById("feedback-error");
+
+                if (feedback.startsWith(" ") || feedback.endsWith(" ")) {
+                    error.innerText = "Feedback cannot have leading or trailing spaces.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                let pattern = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+                if (!pattern.test(feedback)) {
+                    error.innerText = "Feedback should only contain alphabets and single spaces.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                error.style.display = "none";
+                return true;
+            }
+
+            function validateRating() {
+                let rating = document.getElementById("rating").value;
+                let error = document.getElementById("rating-error");
+
+                if (!rating) {
+                    error.innerText = "Please select a rating.";
+                    error.style.display = "inline";
+                    return false;
+                }
+
+                error.style.display = "none";
+                return true;
+            }
+
+            async function loadAppraisals() {
+                await displayAppraisals();
+            }
+
+            async function displayAppraisals() {
+                let container = document.getElementById("cardsContainer");
+                container.innerHTML = "";
+
+                try {
+                    const response = await fetch('http://44.223.23.145:3405/api/appraisals');
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.error || `Failed to fetch appraisals (Status: ${response.status})`);
+                    }
+                    const appraisals = await response.json();
+
+                    if (appraisals.length === 0) {
+                        let noDataDiv = document.createElement("div");
+                        noDataDiv.classList.add("no-data-message");
+
+                        let noDataImage = document.createElement("img");
+                        noDataImage.src = "https://cdn-icons-png.flaticon.com/512/4076/4076478.png";
+                        noDataImage.alt = "No Appraisals";
+                        noDataImage.classList.add("no-data-img");
+
+                        let noDataText = document.createElement("div");
+                        noDataText.classList.add("no-data-text");
+                        noDataText.innerHTML = `
+                            <h3>No Appraisals Given</h3>
+                            <p>You don't have given any performance appraisals yet. Submit the form for new appraisal.</p>
+                        `;
+
+                        noDataDiv.appendChild(noDataImage);
+                        noDataDiv.appendChild(noDataText);
+                        container.appendChild(noDataDiv);
+                    } else {
+                        appraisals.forEach((appraisal) => {
+                            let card = document.createElement("div");
+                            card.classList.add("appraisal-card");
+                            card.innerHTML = `
+                                <strong>Employee Name:</strong> ${appraisal.emp_name} <br>
+                                <strong>Employee ID:</strong> ${appraisal.emp_id} <br>
+                                <strong>Task Name:</strong> ${appraisal.task_name} <br>
+                                <strong>Feedback:</strong> ${appraisal.feedback} <br>
+                                <strong>Rating:</strong> <span class="stars">${"⭐".repeat(appraisal.rating)}</span>
+                            `;
+                            container.appendChild(card);
+                        });
+                    }
+                } catch (err) {
+                    console.error('Fetch Error:', err);
+                    container.innerHTML = `<p>Error loading appraisals: ${err.message}. Please check the server logs for more details.</p>`;
+                }
+            }
+        });
     </script>
 </body>
 </html>
