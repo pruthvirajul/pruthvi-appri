@@ -108,8 +108,18 @@
         .search-container {
             margin-bottom: 20px;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            max-width: 1400px;
+            align-items: flex-start;
+        }
+
+        .search-input-wrapper {
+            display: flex;
             align-items: center;
+            gap: 10px;
+            width: 100%;
             max-width: 400px;
         }
 
@@ -118,7 +128,7 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 1rem;
-            width: 100%;
+            flex: 1;
             transition: border 0.3s;
         }
 
@@ -138,6 +148,9 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .search-container button:disabled {
@@ -152,8 +165,9 @@
         .error-message {
             color: #d62828;
             font-size: 0.875rem;
-            margin-top: 4px;
             display: none;
+            width: 100%;
+            max-width: 400px;
         }
 
         .appraisal-container {
@@ -362,19 +376,7 @@
             opacity: 0.7;
         }
 
-        @media (max-width: 1400px) {
-            .container {
-                max-width: 1000px;
-            }
-
-            header h1 {
-                font-size: 2.2rem;
-            }
-
-            header p {
-                font-size: 1rem;
-            }
-        }
+       
 
         @media (max-width: 1024px) {
             .container {
@@ -414,6 +416,10 @@
             }
 
             .search-container {
+                align-items: stretch;
+            }
+
+            .search-input-wrapper {
                 flex-direction: column;
                 align-items: stretch;
             }
@@ -515,14 +521,16 @@
 
     <div class="container">
         <div class="search-container">
-            <input type="text" id="searchEmpId" placeholder="Enter Your Employee ID (e.g., ATS0001)" pattern="^ATS0(?!000)[0-9]{3}$">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchEmpId" placeholder="Enter Your Employee ID (e.g., ATS0001)" pattern="^ATS0(?!000)[0-9]{3}$">
+                <button id="searchBtn" disabled><i class="fas fa-search"></i> Search</button>
+            </div>
             <span id="searchEmpId-error" class="error-message"></span>
-            <button id="searchBtn" disabled><i class="fas fa-search"></i> Search</button>
         </div>
         <div class="appraisal-container" id="appraisal-container">
             <div class="no-data">
                 <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="No appraisals" class="no-data-img">
-                <h3>Enter Your Employee ID</h3>
+                <h3>No Appraisals Found</h3>
                 <p>Please enter your Employee ID (e.g., ATS0001) to view your performance appraisals.</p>
             </div>
         </div>
@@ -551,7 +559,8 @@
             </div>
             <div class="card-footer">
                 <span id="modalDate"></span>
-            </div>
+            </d
+iv>
         </div>
     </div>
     
@@ -676,10 +685,17 @@
                     });
                 } catch (err) {
                     console.error('Fetch Error:', err);
-                    container.innerHTML = `<p>Error loading appraisals: ${err.message}. Please check the server logs for more details.</p>`;
+                    container.innerHTML = `
+                        <div class="no-data">
+                            <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="Error" class="no-data-img">
+                            <h3>Error Loading Appraisals</h3>
+                            <p>${err.message}. Please check the server logs for more details.</p>
+                        </div>
+                    `;
                 }
             }
         });
     </script>
 </body>
 </html>
+
