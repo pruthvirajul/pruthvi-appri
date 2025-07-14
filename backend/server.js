@@ -6,17 +6,17 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3405;
+const port = process.env.PORT || 3270;
 
 app.use(cors({
     origin: [
         process.env.FRONTEND_URL,
         'http://127.0.0.1:5500',
-        'http://44.223.23.145:8014',
-        'http://44.223.23.145:8015',
-        'http://44.223.23.145:3405',
-        'http://localhost:5500',
-        'http://localhost:3405'
+        'http://13.61.19.62:8140',
+        'http://13.61.19.62:8141',
+        'http://13.61.19.62:3270',
+        'http://13.61.19.62:5500',
+        'http://13.61.19.62:3270'
     ],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
@@ -27,7 +27,7 @@ const pool = new Pool({
     user: process.env.DB_USER || 'postgres',
     host: process.env.DB_HOST || 'postgres',
     database: process.env.DB_NAME || 'new_employee_db',
-    password: process.env.DB_PASSWORD || 'admin123',
+    password: process.env.DB_PASSWORD || 'admin321',
     port: process.env.DB_PORT || 5432,
     retry: {
         max: 5,

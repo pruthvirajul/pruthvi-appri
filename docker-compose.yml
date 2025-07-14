@@ -8,7 +8,7 @@ services:
       - "5402:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin123
+      POSTGRES_PASSWORD: admin321
       POSTGRES_DB: new_employee_db
     volumes:
       - db_data:/var/lib/postgresql/data
@@ -20,7 +20,7 @@ services:
     build: ./backend
     container_name: appraisal_backend
     ports:
-      - "3405:3405"
+      - "3270:3270"
     env_file:
       - ./backend/server.env
     depends_on:
@@ -32,7 +32,7 @@ services:
     build: ./frontend
     container_name: appraisal_frontend
     ports:
-      - "8014:80"
+      - "8140:80"
     networks:
       - appraisal_net
 
@@ -40,7 +40,7 @@ services:
     build: ./Hr_page
     container_name: appraisal_hr_page
     ports:
-      - "8015:80"
+      - "8141:80"
     networks:
       - appraisal_net
 
