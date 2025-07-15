@@ -7,16 +7,16 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = 3270
+const port = 3096
 
 // CORS middleware with specific origins
 app.use(cors({
   origin: [
   process.env.FRONTEND_URL,
-  'http://127.0.0.1:5500',
-  'http://13.61.19.62:8140',
-  'http://13.61.19.62:8141',
-  'http://13.61.19.62:5500'
+  'http://13.60.229.66:5500',
+  'http://13.60.229.66:8140',
+  'http://13.60.229.66:8141',
+  'http://13.60.229.66:5500'
 ]
 }));
 app.use(express.json());

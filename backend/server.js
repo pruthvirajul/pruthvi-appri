@@ -6,17 +6,17 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3270;
+const port = process.env.PORT || 3096;
 
 app.use(cors({
     origin: [
         process.env.FRONTEND_URL,
-        'http://127.0.0.1:5500',
-        'http://13.61.19.62:8140',
-        'http://13.61.19.62:8141',
-        'http://13.61.19.62:3270',
-        'http://13.61.19.62:5500',
-        'http://13.61.19.62:3270'
+        'http://13.60.229.66:5500',
+        'http://13.60.229.66:8140',
+        'http://13.60.229.66:8141',
+        'http://13.60.229.66:3096',
+        'http://13.60.229.66:5500',
+        'http://13.60.229.66:3096'
     ],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']

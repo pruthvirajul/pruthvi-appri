@@ -20,7 +20,7 @@ services:
     build: ./backend
     container_name: appraisal_backend
     ports:
-      - "3270:3270"
+      - "3096:3096"
     env_file:
       - ./backend/server.env
     depends_on:
