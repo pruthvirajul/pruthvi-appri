@@ -12,10 +12,10 @@ const port = process.env.PORT || 3096;
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL,
-    'http://13.60.229.66:5500',
-    'http://13.60.229.66:8140',
-    'http://13.60.229.66:8141',
-    'http://13.60.229.66:5500'
+    'http://13.60.205.60:5500',
+    'http://13.60.205.60:8140',
+    'http://13.60.205.60:8141',
+    'http://13.60.205.60:5500'
   ]
 }));
 app.use(express.json());
